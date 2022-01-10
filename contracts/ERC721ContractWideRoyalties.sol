@@ -6,13 +6,16 @@ pragma solidity ^0.8.4;
 import "hardhat/console.sol";
 import "./ERC2981.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract ERC721ContractWideRoyalties is ERC721, ERC2981 {
+contract ERC721ContractWideRoyalties is ERC721, ERC2981, Ownable {
     uint256 nextTokenId;
 
     constructor(string memory name_, string memory symbol_)
         ERC721(name_, symbol_)
-    {}
+    {
+        console.log("owner of contract: ", msg.sender);
+    }
 
     /// @inheritdoc	ERC165
     function supportsInterface(bytes4 interfaceId)
