@@ -26,7 +26,7 @@ describe('ERC721WithRoyalties', () => {
     })
   })
 
-  // describe('Minting', async () => {
+  // describe('Minting', () => {
   //   it('mints the correct amount of tokens to seller', async () => {})
   //   it('transfers nft to buyer when purchase is made', async () => {})
   // })

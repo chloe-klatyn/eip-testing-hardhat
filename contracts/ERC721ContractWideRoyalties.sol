@@ -7,9 +7,12 @@ import 'hardhat/console.sol';
 import './ERC2981.sol';
 import '@openzeppelin/contracts/token/ERC721/ERC721.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
+import '@openzeppelin/contracts/utils/Counters.sol';
 
 contract ERC721ContractWideRoyalties is ERC721, ERC2981, Ownable {
-  uint nextTokenId;
+  /// @notice _tokenIds to keep track of the number of NFTs minted
+  using Counters for Counters.Counter;
+  Counters.Counter private _tokenIds;
 
   constructor(string memory name_, string memory symbol_) ERC721(name_, symbol_) {}
 
@@ -29,21 +32,18 @@ contract ERC721ContractWideRoyalties is ERC721, ERC2981, Ownable {
   /// @notice Mint one token to `to`
   /// @param to the recipient of the token
   function mint(address to) external {
-    uint tokenId = nextTokenId;
+    uint tokenId = _tokenIds.current();
     _safeMint(to, tokenId, '');
-
-    nextTokenId = tokenId + 1;
+    _tokenIds.increment();
   }
 
   /// @notice Mint several tokens at once
   /// @param recipients an array of recipients for each token
   function mintBatch(address[] memory recipients) external {
-    uint tokenId = nextTokenId;
+    uint tokenId = _tokenIds.current();
     for (uint i; i < recipients.length; i++) {
       _safeMint(recipients[i], tokenId, '');
-      tokenId++;
+      _tokenIds.increment();
     }
-
-    nextTokenId = tokenId;
   }
 }
