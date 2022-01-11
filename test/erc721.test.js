@@ -25,14 +25,37 @@ describe('ERC721WithRoyalties', () => {
     })
   })
 
-  describe('Minting', () => {
+  describe('Minting and Royalties', () => {
     it('mints the correct amount of tokens to seller', async () => {
       let tokenBalance = await erc721.balanceOf(seller1.address)
       await erc721.mint(seller1.address)
+      await erc721.mint(seller1.address)
+
       newTokenBalance = await erc721.balanceOf(seller1.address)
-      expect((newTokenBalance - tokenBalance).toString()).to.equal('1')
+      expect((newTokenBalance - tokenBalance).toString()).to.equal('2')
     })
 
-    it('transfers nft to buyer when purchase is made', async () => {})
+    it('sets the correct tokenId for newly minted tokens', async () => {
+      let txn = await erc721.mint(seller1.address)
+      let token = await txn.wait()
+      let tokenId = token.events[0].args[2]
+      expect(tokenId.toString()).to.equal('0')
+
+      txn = await erc721.mint(seller1.address)
+      token = await txn.wait()
+      tokenId = token.events[0].args[2]
+      expect(tokenId.toString()).to.equal('1')
+
+      txn = await erc721.mint(seller1.address)
+      token = await txn.wait()
+      tokenId = token.events[0].args[2]
+      expect(tokenId.toString()).to.equal('2')
+    })
+
+    // it('sets the correct amount of royalties', async () => {
+    //   const royalties = await erc721.royaltyInfo()
+    // })
+
+    it('transfers NFT to buyer when purchase is made', async () => {})
   })
 })

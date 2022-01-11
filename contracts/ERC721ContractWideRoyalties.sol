@@ -16,7 +16,7 @@ contract ERC721ContractWideRoyalties is ERC721, ERC2981, Ownable {
 
   constructor(string memory name_, string memory symbol_) ERC721(name_, symbol_) {}
 
-  /// @inheritdoc	ERC165
+  /// @inheritdoc ERC165
   function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, ERC2981) returns (bool) {
     return super.supportsInterface(interfaceId);
   }
@@ -31,10 +31,11 @@ contract ERC721ContractWideRoyalties is ERC721, ERC2981, Ownable {
 
   /// @notice Mint one token to `to`
   /// @param to the recipient of the token
-  function mint(address to) external {
+  function mint(address to) external returns (uint tokenId) {
     uint tokenId = _tokenIds.current();
     _safeMint(to, tokenId, '');
     _tokenIds.increment();
+    return tokenId;
   }
 
   /// @notice Mint several tokens at once
