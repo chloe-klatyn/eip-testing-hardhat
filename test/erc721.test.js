@@ -9,7 +9,6 @@ describe('ERC721WithRoyalties', () => {
     const ERC721 = await hre.ethers.getContractFactory('ERC721ContractWideRoyalties')
     erc721 = await ERC721.deploy('ERC721Royalties', 'ERC721')
     await erc721.deployed()
-    const contractAddress = erc721.address
   })
 
   describe('Deployment', () => {
@@ -26,8 +25,14 @@ describe('ERC721WithRoyalties', () => {
     })
   })
 
-  // describe('Minting', () => {
-  //   it('mints the correct amount of tokens to seller', async () => {})
-  //   it('transfers nft to buyer when purchase is made', async () => {})
-  // })
+  describe('Minting', () => {
+    it('mints the correct amount of tokens to seller', async () => {
+      let tokenBalance = await erc721.balanceOf(seller1.address)
+      await erc721.mint(seller1.address)
+      newTokenBalance = await erc721.balanceOf(seller1.address)
+      expect((newTokenBalance - tokenBalance).toString()).to.equal('1')
+    })
+
+    it('transfers nft to buyer when purchase is made', async () => {})
+  })
 })
