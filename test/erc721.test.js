@@ -52,10 +52,16 @@ describe('ERC721WithRoyalties', () => {
       expect(tokenId.toString()).to.equal('2')
     })
 
-    // it('sets the correct amount of royalties', async () => {
-    //   const royalties = await erc721.royaltyInfo()
-    // })
+    it('sets the correct value for default royalties', async () => {
+      await erc721.setDefaultRoyalty(contractOwner.address, 500)
+      royalties = await erc721.royaltyInfo(0, 100)
+      // console.log('royalties: ', royalties[0])
+      expect(royalties[0]).to.equal(contractOwner.address)
+      expect(royalties[1].toString()).to.equal('5')
+    })
 
+    it('sets the correct value of royalty for specific tokens', async () => {})
     it('transfers NFT to buyer when purchase is made', async () => {})
+    it('transfers royalty to contract owner when purchase is made', async () => {})
   })
 })

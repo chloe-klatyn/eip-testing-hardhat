@@ -29,9 +29,13 @@ contract ERC721ContractWideRoyalties is ERC721, ERC2981, Ownable {
     _setRoyalties(recipient, value);
   }
 
+  function setDefaultRoyalty(address receiver, uint96 feeNumerator) public {
+    _setDefaultRoyalty(receiver, feeNumerator);
+  }
+
   /// @notice Mint one token to `to`
   /// @param to the recipient of the token
-  function mint(address to) external returns (uint tokenId) {
+  function mint(address to) external returns (uint _tokenId) {
     uint tokenId = _tokenIds.current();
     _safeMint(to, tokenId, '');
     _tokenIds.increment();
