@@ -3,19 +3,24 @@ const { ethers } = require('hardhat')
 
 describe('ERC1363', function () {
   beforeEach(async () => {
-    ;[contractsOwner, payableWallet] = await ethers.getSigners()
+    ;[contractOwner, crowdsaleWallet] = await ethers.getSigners()
 
     const ERC1363 = await hre.ethers.getContractFactory('ERC1363Mock')
-    const erc1363 = await ERC1363.deploy('ERC1363Token', 'ERC1363')
+    const erc1363 = await ERC1363.deploy('ERC1363Token', 'ERC1363', contractOwner.address, 10000)
     await erc1363.deployed()
 
     const CrowdsaleToken = await hre.ethers.getContractFactory('CrowdsaleToken')
-    const crowdsaleToken = await CrowdsaleToken.deploy()
-    await crowdsaleToken.deploy()
+    const crowdsaleToken = await CrowdsaleToken.deploy(10000)
+    await crowdsaleToken.deployed()
 
-    const ERC1363Payable = await hre.ethers.getContractFactory('ERC1363PayableCrowdsale')
-    const erc1363Payable = await ERC1363Payable.deploy(10, payableWallet.address, crowdsaleToken.address, erc1363.address)
-    await erc1363Payable.deployed()
+    const CrowdsaleContract = await hre.ethers.getContractFactory('CrowdsaleContract')
+    const crowdsaleContract = await CrowdsaleContract.deploy(
+      10,
+      crowdsaleWallet.address,
+      crowdsaleToken.address,
+      erc1363.address
+    )
+    await crowdsaleContract.deployed()
   })
   describe('CrowdsaleToken Deployment', () => {
     it('has a name', async () => {

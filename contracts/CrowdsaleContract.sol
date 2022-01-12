@@ -8,7 +8,7 @@ import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
 import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
 import 'erc-payable-token/contracts/payment/ERC1363Payable.sol';
 
-contract Receiver is ERC1363Payable, ReentrancyGuard {
+contract CrowdsaleContract is ERC1363Payable, ReentrancyGuard {
   using SafeERC20 for IERC20;
 
   // The token being sold
