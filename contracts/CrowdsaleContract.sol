@@ -7,8 +7,9 @@ import 'hardhat/console.sol';
 import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
 import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
 import 'erc-payable-token/contracts/payment/ERC1363Payable.sol';
+import '@openzeppelin/contracts/access/Ownable.sol';
 
-contract CrowdsaleContract is ERC1363Payable, ReentrancyGuard {
+contract CrowdsaleContract is ERC1363Payable, ReentrancyGuard, Ownable {
   using SafeERC20 for IERC20;
 
   // The token being sold
