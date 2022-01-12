@@ -2,15 +2,18 @@ const { expect } = require('chai')
 const { ethers } = require('hardhat')
 
 describe('ERC1363', function () {
+  let crowdsaleToken
+  let erc1363
+
   beforeEach(async () => {
     ;[contractOwner, crowdsaleWallet] = await ethers.getSigners()
 
     const ERC1363 = await hre.ethers.getContractFactory('ERC1363Mock')
-    const erc1363 = await ERC1363.deploy('ERC1363Token', 'ERC1363', contractOwner.address, 10000)
+    erc1363 = await ERC1363.deploy('ERC1363Token', 'ERC1363', contractOwner.address, 10000)
     await erc1363.deployed()
 
     const CrowdsaleToken = await hre.ethers.getContractFactory('CrowdsaleToken')
-    const crowdsaleToken = await CrowdsaleToken.deploy(10000)
+    crowdsaleToken = await CrowdsaleToken.deploy(10000)
     await crowdsaleToken.deployed()
 
     const CrowdsaleContract = await hre.ethers.getContractFactory('CrowdsaleContract')
