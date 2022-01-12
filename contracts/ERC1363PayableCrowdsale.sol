@@ -1,5 +1,6 @@
 //SPDX-License-Identifier: Unlicense
 // Adapted from https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363PayableCrowdsale.sol
+
 pragma solidity ^0.8.0;
 
 import 'hardhat/console.sol';
